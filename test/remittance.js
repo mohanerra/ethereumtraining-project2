@@ -1,4 +1,6 @@
 var Remittance = artifacts.require("./Remittance.sol");
+// var keccak256 = require('js-sha3').keccak256;
+var createKeccakHash = require('keccak');
 
 contract('Remittance', function(accounts) {
 
@@ -8,12 +10,15 @@ contract('Remittance', function(accounts) {
 
     var bobPassword = "pwd1";
     var carolPassword = "pwd2";
+    var bobPasswordHash = '0x'+createKeccakHash('keccak256').update(bobPassword).digest('hex');
+    var carolPasswordHash = '0x'+createKeccakHash('keccak256').update(carolPassword).digest('hex');
+
     var etherToSeed = 2;
 
     var contract;
 
     beforeEach( function(){
-        return Remittance.new(bobPassword, carolPassword, {from: ownerAddress, value: web3.toWei(etherToSeed, "ether")})
+        return Remittance.new( bobPasswordHash, carolPasswordHash, {from: ownerAddress, value: web3.toWei(etherToSeed, "ether")})
         .then( function(instance){
             contract = instance;
         });
@@ -46,5 +51,36 @@ contract('Remittance', function(accounts) {
         })
 
     });
+
+//This is only added for Test purposes to check the hash computed at client side and hash computed in contract    
+    // it("should generate password hash", function(){
+    //     console.log("inside generate password hash");
+    //     // var bobPasswordHash = keccak256(bobPassword);
+    //     // var carolPasswordHash = keccak256(carolPassword);
+    //     console.log("bobs password hash: ", bobPasswordHash);
+    //     console.log("carols password hash: ", carolPasswordHash);
+    //     console.log("password hash at client: ", createKeccakHash('keccak256').update(bobPasswordHash+carolPasswordHash).digest('hex'));
+
+    //     return contract.getPasswordHash()
+    //     .then (function(_hash){
+    //         console.log("password hash in the contract is: ", _hash);
+
+    //         return contract.bobPasswordHash()
+    //         .then( function(_bobPasswordHash){
+    //             console.log("bob's password hash received in contract: ", _bobPasswordHash);
+
+    //             return contract.carolPasswordHash()
+    //             .then( function(_carolPasswordHash){
+    //                 console.log("carol's password hash received in contract: ", _carolPasswordHash);
+    //                 return contract.computeHash(bobPassword, carolPassword)
+    //                 .then( function(_computedHash){
+    //                     console.log("computed hash in contract is: ", _computedHash);
+    //                 })
+    //             })
+    //         })
+    //     })
+        
+
+    // })
 
 });
