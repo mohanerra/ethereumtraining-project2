@@ -17,7 +17,7 @@ contract('Remittance', function(accounts) {
     var contract;
 
     beforeEach( function(){
-        return Remittance.new( passwordHash, {from: ownerAddress, value: web3.toWei(etherToSeed, "ether")})
+        return Remittance.new( passwordHash, carolAddress, {from: ownerAddress, value: web3.toWei(etherToSeed, "ether")})
         .then( function(instance){
             contract = instance;
         });
