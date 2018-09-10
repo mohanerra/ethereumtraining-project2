@@ -17,7 +17,7 @@ contract Remittance {
         address(this).transfer(msg.value);
     }
 
-    function remit(string _bobPassword, string _carolPassword) public payable {
+    function remit(string _bobPassword, string _carolPassword) public {
         require(msg.sender == carolAddress, "You are not authorized to execute remit");
         require(address(this).balance > 0, "contract doesnt have enough funds to remit");
         require(bytes(_bobPassword).length > 0, "bob password is empty");
