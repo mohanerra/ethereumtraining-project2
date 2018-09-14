@@ -1,13 +1,13 @@
 var Remittance = artifacts.require("./Remittance.sol");
-var keccak256 = require('js-sha3').keccak256;
+var createKeccakHash = require('keccak');
 
 var bobPassword = "pwd1";
 var carolPassword = "pwd2";
-var passwordHash = '0x'+keccak256(bobPassword+carolPassword);
+var passwordHash = '0x'+createKeccakHash('keccak256').update(carolAddress+bobPassword).digest('hex');;
 var carolAddress = web3.eth.accounts[2];
 
 module.exports = function(deployer) {
 
-  deployer.deploy(Remittance, passwordHash, carolAddress, {from: web3.eth.accounts[0], value: web3.toWei(2,"ether")});
+  deployer.deploy(Remittance, {from: web3.eth.accounts[0]});
 };
                     
