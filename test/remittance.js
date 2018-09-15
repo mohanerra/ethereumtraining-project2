@@ -20,21 +20,21 @@ contract('Remittance', function(accounts) {
         return Remittance.new({from: ownerAddress})
         .then( function(instance){
             contract = instance;
-            contract.LogHash( function(err, result) {
+            contract.LogDetails( function(err, result) {
                 if(err){
                     console.log("error occurred", err);
                     return error(err);
                 }
-                console.log("Event emitted for Hash: " + result.args.value);
+                console.log("Event emitted: " + result.args.value);
             });
 
-            contract.LogAmount(function(err, result) {
-                if(err){
-                    console.log("error occurred", err);
-                    return error(err);
-                }
-                console.log("Event emitted for Amount transfer: " + result.args.value);
-            });
+            // contract.LogAmount(function(err, result) {
+            //     if(err){
+            //         console.log("error occurred", err);
+            //         return error(err);
+            //     }
+            //     console.log("Event emitted for Amount transfer: " + result.args.value);
+            // });
 
         });
     });
